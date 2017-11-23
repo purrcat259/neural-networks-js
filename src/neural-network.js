@@ -21,7 +21,13 @@ export default class NeuralNetwork {
     }
 
     feedForward(inputs) {
-
+        console.log(`Feeding in: ${inputs}`);
+        // TODO: Place into loops
+        // Layer 0 (Hidden):
+        // Neuron 0:
+        let net = this.neurons[0].calculateNet(inputs);
+        let act = this.neurons[0].calculateActivation(net);
+        this.neurons[0].log(`Net: ${net}, Act: ${act}`);
     }
 
     backPropogate() {
@@ -53,11 +59,10 @@ export default class NeuralNetwork {
     runIteration() {
         this.iteration += 1;
         this.currentDataRow += 1;
-        if (this.currentDataRow > this.dataset.length) {
+        if (this.currentDataRow >= this.dataset.length) {
             this.currentDataRow = 0;
         }
         let inputs = this.dataset[this.currentDataRow].inputs;
-        console.log(`Feeding in: ${inputs}`);
-        feedForward(inputs);
+        this.feedForward(inputs);
     }
 }

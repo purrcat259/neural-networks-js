@@ -2,7 +2,7 @@ export default class Neuron {
     constructor(number, layer, inputCount, learningRate) {
         this.number = number;
         this.layer = layer;
-        this.inputCount = inputCount;
+        this.inputCount = inputCount + 1; // Adding bias
         this.learningRate = learningRate;
         this.weights = this.generateWeights();
     }
@@ -15,11 +15,14 @@ export default class Neuron {
         return weights;
     }
 
-    calculateNet(inputs, weight) {
+    calculateNet(inputs) {
         let net = 0;
-        for (let i = 0; i < inputCount; i++) {
-            const input = inputs[i];
-            const weight = weights[i];
+        let neuronInputs = inputs.slice();
+        // Add in the bias value ot the inputs
+        neuronInputs.unshift(1);
+        for (let i = 0; i < this.inputCount; i++) {
+            const input = neuronInputs[i];
+            const weight = this.weights[i];
             net += (input * weight);
         }
         return net;
@@ -42,5 +45,9 @@ export default class Neuron {
             let inputValue = this.inputs[i];
             this.weights[i] = this.calculateNewWeight(this.weights[i], error, inputValue);
         }
+    }
+
+    log(message) {
+        console.log(`[Layer: ${this.layer}, Number: ${this.number}]: ${message}`);
     }
 }
