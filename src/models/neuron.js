@@ -1,15 +1,15 @@
 export default class Neuron {
-    consturctor(number, layer, inputs, learningRate) {
+    consturctor(number, layer, inputCount, learningRate) {
         this.number = number;
         this.layer = layer;
-        this.inputs = inputs;
+        this.inputCount = inputCount;
         this.learningRate = learningRate;
         this.weights = this.generateWeights();
     }
 
     generateWeights() {
         let weights = [];
-        for (let i = 0; i < this.inputs.length; i++) {
+        for (let i = 0; i < this.inputCount; i++) {
             weights[i] = Math.random();
         }
         return weights;
@@ -17,7 +17,7 @@ export default class Neuron {
 
     calculateNet(inputs, weight) {
         let net = 0;
-        for (let i = 0; i < inputs.length; i++) {
+        for (let i = 0; i < inputCount; i++) {
             const input = inputs[i];
             const weight = weights[i];
             net += (input * weight);
@@ -37,7 +37,7 @@ export default class Neuron {
     }
 
     updateWeights(error, target) {
-        for (let i = 0; i < this.weights.length; i++) {
+        for (let i = 0; i < this.inputCount; i++) {
             let oldWeight = this.weights[i];
             let inputValue = this.inputs[i];
             this.weights[i] = this.calculateNewWeight(this.weights[i], error, inputValue);
