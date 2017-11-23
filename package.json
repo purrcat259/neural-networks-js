@@ -1,0 +1,22 @@
+{
+  "name": "neural-networks-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/purrcat259/neural-networks-js.git"
+  },
+  "keywords": [],
+  "author": "purrcat259",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "fuse-box": "^2.5.0-beta.1",
+    "tslib": "^1.8.0",
+    "typescript": "^2.6.1",
+  }
+}
