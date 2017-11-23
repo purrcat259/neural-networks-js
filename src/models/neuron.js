@@ -1,10 +1,18 @@
 export default class Neuron {
-    consturctor(number, layer, inputs, weights, learningRate) {
+    consturctor(number, layer, inputs, learningRate) {
         this.number = number;
         this.layer = layer;
         this.inputs = inputs;
-        this.weights = weights;
         this.learningRate = learningRate;
+        this.weights = this.generateWeights();
+    }
+
+    generateWeights() {
+        let weights = [];
+        for (let i = 0; i < this.inputs.length; i++) {
+            weights[i] = Math.random();
+        }
+        return weights;
     }
 
     calculateNet(inputs, weight) {
