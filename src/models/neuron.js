@@ -1,5 +1,5 @@
 export default class Neuron {
-    consturctor(number, layer, inputCount, learningRate) {
+    constructor(number, layer, inputCount, learningRate) {
         this.number = number;
         this.layer = layer;
         this.inputCount = inputCount;

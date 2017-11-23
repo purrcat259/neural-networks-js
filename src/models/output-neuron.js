@@ -1,4 +1,4 @@
-import * as Neuron from './neuron';
+import Neuron from './neuron';
 
 export default class OutputNeuron extends Neuron {
     calculateError(target, activation) {

@@ -1,13 +1,13 @@
-import * as HiddenNeuron from './models/hidden-neuron';
-import * as OutputNeuron from './models/output-neuron';
+import HiddenNeuron from './models/hidden-neuron';
+import OutputNeuron from './models/output-neuron';
 
-export default class Network {
-    consturctor(learningRate) {
+export default class NeuralNetwork {
+    constructor(learningRate) {
         this.learningRate = learningRate || 0.8;
-        this.neurons = generateNetwork();
+        this.neurons = this.generateNetwork();
         this.currentDataRow = 0;
         this.iteration = 0;
-        initialiseNetwork();
+        this.initialiseNetwork();
     }
 
     generateNetwork() {
@@ -16,6 +16,7 @@ export default class Network {
             new HiddenNeuron(1, 0, 2, this.learningRate),
             new OutputNeuron(0, 1, 2, this.learningRate)
         ];
+        console.log(`Generated network with ${neurons.length} neurons`);
         return neurons;
     }
 
@@ -55,6 +56,8 @@ export default class Network {
         if (this.currentDataRow > this.dataset.length) {
             this.currentDataRow = 0;
         }
-        feedForward(this.dataset[this.currentDataRow].inputs);
+        let inputs = this.dataset[this.currentDataRow].inputs;
+        console.log(`Feeding in: ${inputs}`);
+        feedForward(inputs);
     }
 }

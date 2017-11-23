@@ -1,4 +1,4 @@
-import * as Neuron from './neuron';
+import Neuron from './neuron';
 
 export default class HiddenNeuron extends Neuron {
     calculateError(previousError, weight, activation) {
