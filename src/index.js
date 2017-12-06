@@ -23,7 +23,29 @@ const learningRate = 0.7;
 
 let neuralNet = new NeuralNetwork(learningRate);
 
+let epochLabels = [];
+
+let errorChart = new Chartist.Line('.ct-chart', {
+    labels: epochLabels,
+    series: [
+        []
+    ]
+});
+
+let drawError = (epochNumber) => {
+    epochLabels.push(String(epochNumber));
+    let data = {
+        labels: epochLabels,
+        series: [
+            neuralNet.epochErrors.slice()
+        ]
+    }
+    errorChart.update(data);
+};
+
 document.getElementById('runEpochButton').addEventListener('click', () => {
     neuralNet.runEpoch(dataset);
     console.log(`Epoch Errors: ${neuralNet.epochErrors}`);
+    let epochNumber = neuralNet.epochErrors.length + 1;
+    drawError(epochNumber);
 });
