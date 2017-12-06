@@ -4,15 +4,20 @@ export default class Neuron {
         this.layer = layer;
         this.inputCount = inputCount + 1; // Adding bias
         this.learningRate = learningRate;
-        this.weights = this.generateWeights();
+        this.activation = null;
+        this.error = null;
     }
 
-    generateWeights() {
-        let weights = [];
+    generateWeights(weights) {
+        if (weights && weights.length) {
+            this.weights = weights;
+            return;
+        }
+        weights = [];
         for (let i = 0; i < this.inputCount; i++) {
             weights[i] = Math.random();
         }
-        return weights;
+        this.weights = weights;
     }
 
     calculateNet(inputs) {
@@ -20,6 +25,8 @@ export default class Neuron {
         let neuronInputs = inputs.slice();
         // Add in the bias value ot the inputs
         neuronInputs.unshift(1);
+        // Store the inputs to be able to change the weights
+        this.inputs = neuronInputs;
         for (let i = 0; i < this.inputCount; i++) {
             const input = neuronInputs[i];
             const weight = this.weights[i];
@@ -29,25 +36,31 @@ export default class Neuron {
     }
 
     calculateActivation(net) {
-        return 1 / (1 + Math.exp(-net));
+        const activation = 1 / (1 + Math.exp(-net));
+        this.activation = activation;
+        return activation;
     }
 
     // Override depending on target / hidden
     calculateError() {}
 
-    calculateNewWeight(oldWeight, error, inputValue) {
-        return oldWeight + (this.learningRate * error * inputValue);
-    }
 
-    updateWeights(error, target) {
+    updateWeights() {
+        let oldWeights = this.weights.slice();
         for (let i = 0; i < this.inputCount; i++) {
             let oldWeight = this.weights[i];
             let inputValue = this.inputs[i];
-            this.weights[i] = this.calculateNewWeight(this.weights[i], error, inputValue);
+            this.weights[i] = this.calculateNewWeight(this.weights[i], this.error, inputValue);
         }
+        this.log(`Weights updated from: ${oldWeights} to [${this.weights.join(', ')}]`);
+    }
+
+    calculateNewWeight(oldWeight, error, inputValue) {
+        this.log(`Calculating new weight given old weight: ${oldWeight}, error: ${error} and input: ${inputValue}`);
+        return oldWeight + (this.learningRate * error * inputValue);
     }
 
     log(message) {
-        console.log(`[Layer: ${this.layer}, Number: ${this.number}]: ${message}`);
+        console.log(`[Layer: ${this.layer}, Neuron: ${this.number}]: ${message}`);
     }
 }
