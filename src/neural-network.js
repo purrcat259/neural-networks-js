@@ -27,6 +27,29 @@ export default class NeuralNetwork {
         return neurons;
     }
 
+    runEpoch(dataset) {
+        console.log(`Running Epoch: ${this.epochErrors.length + 1}`);
+        let currentEpochErrors = [];
+        for (let i = 0; i < dataset.length; i++) {
+            this.runFeedforward(dataset[i]);
+            this.runBackPropogation(dataset[i]);
+            currentEpochErrors.push(this.neurons[this.neurons.length - 1].error);
+        }
+        // Calculate the error after the epoch is completed
+        this.epochErrors.push(this.calculateEpochError(currentEpochErrors));
+    }
+
+    calculateEpochError(errors) {
+        // Using RMS
+        return Math.sqrt(errors.reduce((prev, curr) => prev + Math.pow(curr, 2), 0));
+    }
+
+    runFeedforward(data) {
+        let finalOutput = this.feedForwardLoop(data);
+        this.lastOutput = finalOutput;
+        console.log(`Final activation value: ${this.lastOutput}`);
+    }
+
     feedForwardLoop(datasetPart) {
         let previousActivations = [];
         console.log(`Feeding in: ${datasetPart.inputs} and expecting: ${datasetPart.target}`);
@@ -60,12 +83,6 @@ export default class NeuralNetwork {
             layerActivations.push(act);
         }
         return layerActivations;
-    }
-
-    runFeedforward(data) {
-        let finalOutput = this.feedForwardLoop(data);
-        this.lastOutput = finalOutput;
-        console.log(`Final activation value: ${this.lastOutput}`);
     }
 
     runBackPropogation(data) {

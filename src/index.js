@@ -23,16 +23,7 @@ const learningRate = 0.7;
 
 let neuralNet = new NeuralNetwork(learningRate);
 
-let epochCount = 1;
-const runEpoch = (data) => {
-    console.log(`Running Epoch: ${epochCount}`);
-    for (let i = 0; i < data.length; i++) {
-        neuralNet.runFeedforward(data[i]);
-        neuralNet.runBackPropogation(data[i]);
-    }
-    epochCount += 1;
-};
-
 document.getElementById('runEpochButton').addEventListener('click', () => {
-    runEpoch(dataset);
+    neuralNet.runEpoch(dataset);
+    console.log(`Epoch Errors: ${neuralNet.epochErrors}`);
 });
