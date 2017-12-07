@@ -1,23 +1,8 @@
 import NeuralNetwork from './neural-network';
+// import { getDataset } from './datasets/test';
+import { getDataset } from './datasets/sin';
 
-let dataset = [
-    {
-        inputs: [0.23, 0.45],
-        target: 0.32
-    },
-    {
-        inputs: [0.78, 0.32],
-        target: 0.64
-    },
-    {
-        inputs: [0.86, 0.12],
-        target: 0.53
-    },
-    {
-        inputs: [0.12, 0.76],
-        target: 0.19
-    },
-];
+let dataset = getDataset();
 
 const learningRate = 0.7;
 
