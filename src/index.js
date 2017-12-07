@@ -27,7 +27,7 @@ let errorChart = new Chartist.Line(
     options
 );
 
-let accuracyChart = new Chartist.Line(
+let accuracyChart = new Chartist.Bar(
     '#accuracyChart',
     {
         labels: epochLabels,
@@ -69,18 +69,18 @@ document.getElementById('runEpochButton').addEventListener('click', () => {
     neuralNet.runEpoch(dataset);
     let epochNumber = neuralNet.epochErrors.length + 1;
     drawError(epochNumber);
-    accuracies = [];
-    drawAccuracy('?', tolerance);
+    // accuracies = [];
+    // drawAccuracy('?', tolerance);
 });
 
 document.getElementById('runSeveralEpochsButton').addEventListener('click', () => {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 50; i++) {
         neuralNet.runEpoch(dataset);
         let epochNumber = neuralNet.epochErrors.length + 1;
     }
     drawError(epochNumber);
-    accuracies = [];
-    drawAccuracy('?', tolerance);
+    // accuracies = [];
+    // drawAccuracy('?', tolerance);
 });
 
 document.getElementById('testAccuracyButton').addEventListener('click', () => {

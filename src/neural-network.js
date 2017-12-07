@@ -17,13 +17,29 @@ export default class NeuralNetwork {
             [new HiddenNeuron(0, 1, 2, this.learningRate), new HiddenNeuron(1, 1, 2, this.learningRate)],
             new OutputNeuron(0, 2, 2, this.learningRate)
         ];
+        // let neurons = [
+        //     [new HiddenNeuron(0, 0, 2, this.learningRate), new HiddenNeuron(1, 0, 2, this.learningRate), new HiddenNeuron(2, 0, 2, this.learningRate), new HiddenNeuron(3, 0, 2, this.learningRate)],
+        //     [new HiddenNeuron(0, 1, 4, this.learningRate), new HiddenNeuron(1, 1, 4, this.learningRate), new HiddenNeuron(2, 1, 4, this.learningRate), new HiddenNeuron(3, 1, 4, this.learningRate)],
+        //     [new HiddenNeuron(0, 2, 4, this.learningRate), new HiddenNeuron(1, 2, 4, this.learningRate), new HiddenNeuron(2, 2, 4, this.learningRate), new HiddenNeuron(3, 2, 4, this.learningRate)],
+        //     new OutputNeuron(0, 3, 4, this.learningRate)
+        // ];
         // TEST WEIGHT GENERATION
-        neurons[0][0].generateWeights([0.34, 0.56, -0.23]);
-        neurons[0][1].generateWeights([0.58, -0.27, 0.59]);
-        neurons[1][0].generateWeights([0.8, -0.9, -0.1]);
-        neurons[1][1].generateWeights([0.3, 0.5, 0.6]);
-        neurons[2].generateWeights([0.2, 0.3, -0.2]);
-        console.log(`Generated network with ${neurons.length} neurons`);
+        // neurons[0][0].generateWeights([0.34, 0.56, -0.23]);
+        // neurons[0][1].generateWeights([0.58, -0.27, 0.59]);
+        // neurons[1][0].generateWeights([0.8, -0.9, -0.1]);
+        // neurons[1][1].generateWeights([0.3, 0.5, 0.6]);
+        // neurons[2].generateWeights([0.2, 0.3, -0.2]);
+        // Generate random weights for all neurons
+        neurons.forEach((layer) => {
+            if (layer.length) {
+                layer.forEach((neuron) => {
+                    neuron.generateWeights();
+                });
+            } else {
+                layer.generateWeights();
+            }
+        });
+        console.log(`Generated network with ${neurons.length} layers`);
         return neurons;
     }
 

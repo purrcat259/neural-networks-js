@@ -2,7 +2,8 @@ let getDataset = (amount) => {
     let amount = amount || 10;
     let dataset = [];
     for (let i = 0; i < amount; i++) {
-        let firstInput = Math.random();
+        // let firstInput = Math.random();
+        let firstInput = 1.0;
         let secondInput = Math.random();
         dataset.push(
             {
