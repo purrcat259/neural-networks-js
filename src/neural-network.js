@@ -136,4 +136,24 @@ export default class NeuralNetwork {
             }
         }
     }
+
+    testAccuracy(dataset, tolerance) {
+        tolerance = tolerance || 0.01;
+        let errors = [];
+        dataset.forEach((part) => {
+            console.log(`Testing accuracy against part: ${JSON.stringify(part)}`);
+            let target = part.target;
+            let output = this.feedForwardLoop(part);
+            let error = target - output;
+            errors.push(error);
+            console.log(`Error: ${error}`);
+        });
+        let withinTolerance = 0;
+        errors.map((error) => {
+            if (Math.abs(error) <= tolerance) {
+                withinTolerance += 1;
+            }
+        });
+        return withinTolerance;
+    }
 }

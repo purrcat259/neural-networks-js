@@ -1,22 +1,34 @@
 import NeuralNetwork from './neural-network';
 // import { getDataset } from './datasets/test';
-import { getDataset } from './datasets/sin';
+import { getDataset, getTestDataset } from './datasets/sin';
 
 let dataset = getDataset();
 
 const learningRate = 0.7;
+const tolerance = 0.1;
 
 let neuralNet = new NeuralNetwork(learningRate);
 
 let epochLabels = [];
+let accuracies = [];
 
 let options = {
-  width: 600,
-  height: 600
+    height: 600
 };
 
 let errorChart = new Chartist.Line(
-    '.ct-chart',
+    '#errorChart',
+    {
+        labels: epochLabels,
+        series: [
+            []
+        ]
+    },
+    options
+);
+
+let accuracyChart = new Chartist.Line(
+    '#accuracyChart',
     {
         labels: epochLabels,
         series: [
@@ -28,6 +40,17 @@ let errorChart = new Chartist.Line(
 
 let drawEpochCount = (epochNumber) => {
     document.getElementById('epochCount').innerText = `${epochNumber}`;
+};
+
+let drawAccuracy = (accuracy, tolerance) => {
+    document.getElementById('accuracyPercentage').innerText = `${accuracy}% accurate with tolerance of: ${tolerance}`;
+    let data = {
+        labels: epochLabels,
+        series: [
+            accuracies
+        ]
+    }
+    accuracyChart.update(data);
 };
 
 let drawError = (epochNumber) => {
@@ -46,6 +69,8 @@ document.getElementById('runEpochButton').addEventListener('click', () => {
     neuralNet.runEpoch(dataset);
     let epochNumber = neuralNet.epochErrors.length + 1;
     drawError(epochNumber);
+    accuracies = [];
+    drawAccuracy('?', tolerance);
 });
 
 document.getElementById('runSeveralEpochsButton').addEventListener('click', () => {
@@ -54,4 +79,18 @@ document.getElementById('runSeveralEpochsButton').addEventListener('click', () =
         let epochNumber = neuralNet.epochErrors.length + 1;
     }
     drawError(epochNumber);
+    accuracies = [];
+    drawAccuracy('?', tolerance);
+});
+
+document.getElementById('testAccuracyButton').addEventListener('click', () => {
+    for (let i = 0; i < 10; i++) {
+        let testDataset = getTestDataset();
+        let amount = testDataset.length;
+        let amountWithinTolerance = neuralNet.testAccuracy(testDataset, tolerance);
+        let accuracy = Math.round((amountWithinTolerance / amount) * 100);
+        accuracies.push(accuracy);
+        console.log(`${amountWithinTolerance} within tolerance of ${tolerance}. Accuracy: ${accuracy}%`);
+    }
+    drawAccuracy(accuracy, tolerance);
 });
